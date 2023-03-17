@@ -11,7 +11,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 //import tasks from "./src/components/Tasks/Tasks";
+import { load as databaseLoad, save } from "./src/database";
 function App() {
+  databaseLoad();
+  save();
   const [tasks, setTask] = useState([
     {
       id: uuid(),
