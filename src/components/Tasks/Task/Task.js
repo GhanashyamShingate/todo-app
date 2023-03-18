@@ -2,12 +2,14 @@ import { View, Text, Pressable, Modal, Switch, Alert } from "react-native";
 import { styles } from "./styles";
 import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as database from "../../../database";
 export function Task(props) {
   const [showModal, setShowModal] = useState(false);
   const handleModalToggle = () => {
     setShowModal(!showModal);
   };
   const handleStatusChangePress = () => {
+    database.update();
     props.onStatusChange(props.task.id);
   };
   const handleRemovePress = () => {

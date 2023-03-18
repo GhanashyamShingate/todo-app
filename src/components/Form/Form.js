@@ -9,16 +9,23 @@ import {
   Alert,
 } from "react-native";
 import styles from "./styles";
-
+import * as database from "../../database";
 export default function Form(props) {
   const [taskDescription, setTaskDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState();
-  const handleAddPress = () => {
+  const handleAddPress = async () => {
     if (taskDescription) {
       /*console.log("Button Pressed");
       console.log("Descrption:", taskDescription);
       console.log("Status:", taskDone);*/
-      props.onAddTask(taskDescription, taskDone);
+      const data = {
+        taskDescription,
+        taskDone,
+      };
+      const id = await database.save(data);
+      console.log("ID", id);
+      data.id = id;
+      props.onAddTask(data);
 
       setErrorMessage(null);
       setTaskDescription("");

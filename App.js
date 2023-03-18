@@ -5,7 +5,7 @@ import { Header } from "./src/components/Header/Header";
 import { Tasks } from "./src/components/Tasks/Tasks";
 import Form from "./src/components/Form/Form";
 import uuid from "react-uuid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -13,25 +13,31 @@ import { MaterialIcons } from "@expo/vector-icons";
 //import tasks from "./src/components/Tasks/Tasks";
 import { load as databaseLoad, save } from "./src/database";
 function App() {
-  databaseLoad();
-  save();
-  const [tasks, setTask] = useState([
-    {
-      id: uuid(),
-      description: "Walk the dog",
-      done: true,
-    },
-    {
-      id: uuid(),
-      description: "Wash the car",
-      done: false,
-    },
-    {
-      id: uuid(),
-      description: "Finish the lab",
-      done: false,
-    },
-  ]);
+  const [tasks, setTask] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const data = await databaseLoad();
+      //setData(data.tasks);
+      setTask(data);
+      console.log("loaded data:", data);
+    })();
+  }, []);
+
+  // {
+  //   id: uuid(),
+  //   description: "Walk the dog",
+  //   done: true,
+  // },
+  // {
+  //   id: uuid(),
+  //   description: "Wash the car",
+  //   done: false,
+  // },
+  // {
+  //   id: uuid(),
+  //   description: "Finish the lab",
+  //   done: false,
+  // },
 
   const handleStatusChange = (id) => {
     const updatedTasks = tasks.map((task) => {
@@ -43,15 +49,15 @@ function App() {
     setTask(updatedTasks);
   };
   const onTaskRemoval = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
+    const updatedTasks = data.filter((task) => task.id !== id);
     setTask(updatedTasks);
   };
-  function handleAddTask(taskDescription, taskDone) {
+  function handleAddTask(data) {
     const updatedTasks = [...tasks];
     updatedTasks.push({
-      id: uuid(),
-      description: taskDescription,
-      done: taskDone,
+      id: data.id,
+      description: data.taskDescription,
+      done: data.taskDone,
     });
     setTask(updatedTasks);
   }
