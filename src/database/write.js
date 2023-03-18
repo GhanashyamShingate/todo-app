@@ -5,7 +5,7 @@ export async function save(data) {
   console.log("Saving", data);
 
   try {
-    const dbCollection = collection(db, "Tasks");
+    const dbCollection = collection(db, "1");
     const docRef = await addDoc(dbCollection, data);
     //console.log("Document written with ID: ", docRef.id);
     return docRef.id;
@@ -14,11 +14,20 @@ export async function save(data) {
     return e;
   }
 }
-export async function update() {
+export async function update(id, data) {
+  console.log("Updating", id, data);
+
+  //return result;
   // const docRef = doc(db);
   // // Set the "capital" field of the city 'DC'
   // await updateDoc(washingtonRef, {
   //   capital: true,
   // });
-  console.log("Updating");
+  try {
+    const docRef = doc(db, "1", id);
+    const result = await updateDoc(docRef, data);
+    console.log("result:", result);
+  } catch (e) {
+    console.log(e);
+  }
 }

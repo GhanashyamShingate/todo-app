@@ -3,7 +3,7 @@ import { db } from "./config";
 export async function load() {
   console.log("Loading...");
   const data = [];
-  const dbCollection = collection(db, "Tasks");
+  const dbCollection = collection(db, "1");
   const querySnapshot = await getDocs(dbCollection);
   querySnapshot.forEach((doc) => {
     data.push({

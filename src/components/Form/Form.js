@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import styles from "./styles";
 import * as database from "../../database";
+import { Tasks } from "../Tasks/Tasks";
 export default function Form(props) {
   const [taskDescription, setTaskDescription] = useState("");
+  const [taskDone, setTaskDone] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const handleAddPress = async () => {
     if (taskDescription) {
@@ -25,7 +27,7 @@ export default function Form(props) {
       const id = await database.save(data);
       console.log("ID", id);
       data.id = id;
-      props.onAddTask(data);
+      props.onAddTask(taskDescription, taskDone, id);
 
       setErrorMessage(null);
       setTaskDescription("");
@@ -47,7 +49,6 @@ export default function Form(props) {
   const handleDescriptionChange = (value) => {
     setTaskDescription(value);
   };
-  const [taskDone, setTaskDone] = useState(false);
   const handleStatusChange = (value) => {
     setTaskDone(value);
   };

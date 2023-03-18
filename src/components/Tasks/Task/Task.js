@@ -9,7 +9,7 @@ export function Task(props) {
     setShowModal(!showModal);
   };
   const handleStatusChangePress = () => {
-    database.update();
+    //database.update();
     props.onStatusChange(props.task.id);
   };
   const handleRemovePress = () => {
@@ -35,7 +35,7 @@ export function Task(props) {
     <>
       <Pressable onPress={handleModalToggle}>
         <View style={styles.container}>
-          <Text style={styles.title}>{props.task.description}</Text>
+          <Text style={styles.title}>Description:{props.task.description}</Text>
           <Text style={styles.text}>Id: {props.task.id}</Text>
           <Text style={styles.text}>
             Status: {props.task.done ? "Completed" : "Open"}

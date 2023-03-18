@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, View, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import styles from "./src/Styles/main";
 import { Header } from "./src/components/Header/Header";
@@ -11,35 +11,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 //import tasks from "./src/components/Tasks/Tasks";
-import { load as databaseLoad, save } from "./src/database";
+import { load as databaseLoad, save, update } from "./src/database";
 function App() {
   const [tasks, setTask] = useState([]);
   useEffect(() => {
     (async () => {
       const data = await databaseLoad();
       //setData(data.tasks);
+
       setTask(data);
       console.log("loaded data:", data);
     })();
   }, []);
-
-  // {
-  //   id: uuid(),
-  //   description: "Walk the dog",
-  //   done: true,
-  // },
-  // {
-  //   id: uuid(),
-  //   description: "Wash the car",
-  //   done: false,
-  // },
-  // {
-  //   id: uuid(),
-  //   description: "Finish the lab",
-  //   done: false,
-  // },
-
   const handleStatusChange = (id) => {
+    //update(id);
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
         task.done = !task.done;
@@ -49,16 +34,18 @@ function App() {
     setTask(updatedTasks);
   };
   const onTaskRemoval = (id) => {
-    const updatedTasks = data.filter((task) => task.id !== id);
+    const updatedTasks = tasks.filter((task) => task.id !== id);
     setTask(updatedTasks);
   };
-  function handleAddTask(data) {
+  function handleAddTask(taskDescription, taskDone, id) {
     const updatedTasks = [...tasks];
+    console.log("initial task", tasks);
     updatedTasks.push({
-      id: data.id,
-      description: data.taskDescription,
-      done: data.taskDone,
+      id: id,
+      description: taskDescription,
+      done: taskDone,
     });
+    console.log("Updated Task", updatedTasks);
     setTask(updatedTasks);
   }
 
