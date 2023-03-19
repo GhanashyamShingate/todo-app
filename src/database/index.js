@@ -1,3 +1,3 @@
 import { load } from "./read";
-import { save, update } from "./write";
-export { load, save, update };
+import { save, update, remove } from "./write";
+export { load, save, update, remove };

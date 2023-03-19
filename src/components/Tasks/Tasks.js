@@ -4,6 +4,7 @@ import { Task } from "./Task/Task";
 
 export function Tasks(props) {
   //props.tasks = [];
+  console.log("Properties", props.tasks);
   return (
     <View style={styles.container}>
       <ScrollView>

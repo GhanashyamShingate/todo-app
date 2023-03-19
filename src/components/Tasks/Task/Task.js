@@ -4,13 +4,20 @@ import { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as database from "../../../database";
 export function Task(props) {
+  console.log("Properties in Task:", props);
   const [showModal, setShowModal] = useState(false);
   const handleModalToggle = () => {
     setShowModal(!showModal);
   };
   const handleStatusChangePress = () => {
-    //database.update();
-    props.onStatusChange(props.task.id);
+    const taskStatus = props.onStatusChange(props.task.id);
+    console.log("Task Changed:", taskStatus);
+
+    //id: taskStatus.id;
+    const data = {
+      taskDone: props.task.done,
+    };
+    database.update(props.task.id, { taskDone: props.task.done });
   };
   const handleRemovePress = () => {
     Alert.alert(
@@ -19,8 +26,10 @@ export function Task(props) {
       [
         {
           text: "Confirm",
-          onPress: () => {
+          onPress: async () => {
             props.onTaskRemoval(props.task.id);
+            const deleted = await database.remove(props.task.id);
+            console.log("Deleted:", deleted);
             setShowModal(false);
           },
         },
@@ -35,10 +44,14 @@ export function Task(props) {
     <>
       <Pressable onPress={handleModalToggle}>
         <View style={styles.container}>
-          <Text style={styles.title}>Description:{props.task.description}</Text>
+          <Text style={styles.title}>
+            Description:{props.task.taskDescription}
+            {props.task.description}
+          </Text>
           <Text style={styles.text}>Id: {props.task.id}</Text>
           <Text style={styles.text}>
-            Status: {props.task.done ? "Completed" : "Open"}
+            Status:
+            {props.task.done ? "Completed" : "Open"}
           </Text>
         </View>
       </Pressable>
@@ -52,6 +65,7 @@ export function Task(props) {
               <Text style={styles.modaltaskClose}>X</Text>
             </Pressable>
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              {props.task.taskDescription}
               {props.task.description}
             </Text>
             <Text

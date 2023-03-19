@@ -21,13 +21,15 @@ export default function Form(props) {
       console.log("Descrption:", taskDescription);
       console.log("Status:", taskDone);*/
       const data = {
-        taskDescription,
-        taskDone,
+        taskDescription: taskDescription,
+        taskDone: taskDone,
       };
       const id = await database.save(data);
-      console.log("ID", id);
+      const d = data.taskDescription;
+      const dt = data.taskDone;
+      //console.log("D", d);
       data.id = id;
-      props.onAddTask(taskDescription, taskDone, id);
+      props.onAddTask(d, dt, id);
 
       setErrorMessage(null);
       setTaskDescription("");

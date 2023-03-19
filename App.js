@@ -18,7 +18,6 @@ function App() {
     (async () => {
       const data = await databaseLoad();
       //setData(data.tasks);
-
       setTask(data);
       console.log("loaded data:", data);
     })();
@@ -32,12 +31,14 @@ function App() {
       return task;
     });
     setTask(updatedTasks);
+    return tasks;
   };
   const onTaskRemoval = (id) => {
     const updatedTasks = tasks.filter((task) => task.id !== id);
     setTask(updatedTasks);
   };
   function handleAddTask(taskDescription, taskDone, id) {
+    console.log("TaskDescription", taskDescription);
     const updatedTasks = [...tasks];
     console.log("initial task", tasks);
     updatedTasks.push({

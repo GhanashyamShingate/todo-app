@@ -1,11 +1,16 @@
-import { collection, addDoc } from "firebase/firestore";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "./config";
 export async function save(data) {
   console.log("Saving", data);
 
   try {
-    const dbCollection = collection(db, "1");
+    const dbCollection = collection(db, "Tasks");
     const docRef = await addDoc(dbCollection, data);
     //console.log("Document written with ID: ", docRef.id);
     return docRef.id;
@@ -24,10 +29,22 @@ export async function update(id, data) {
   //   capital: true,
   // });
   try {
-    const docRef = doc(db, "1", id);
+    const docRef = doc(db, "Tasks", id);
     const result = await updateDoc(docRef, data);
     console.log("result:", result);
   } catch (e) {
     console.log(e);
+  }
+}
+
+export async function remove(id) {
+  console.log("Delet:", id);
+  try {
+    const docRef = doc(db, "Tasks", id);
+    const result = await deleteDoc(docRef);
+    console.log("result:", result);
+    return true;
+  } catch (e) {
+    return false;
   }
 }
